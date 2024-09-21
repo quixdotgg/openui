@@ -1,0 +1,34 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Component {
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  name                 String
+  type                 String   @default("registry:ui")
+  registryDependencies String[] // Array of strings
+  dependencies         String[] // Array of strings
+  devDependencies      String[] // Array of strings
+
+  // Nested Tailwind config as a Json object
+  tailwind Json? // Optional field using Json for config
+
+  // cssVars for light and dark modes as Json
+  cssVars Json // Json to store light and dark mode key-value pairs
+
+  // Files array as Json
+  files Json[] // Json to store an array of file objects
+
+  createdAt DateTime @default(now())
+}
