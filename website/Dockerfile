@@ -16,7 +16,9 @@ COPY . .
 RUN npm run build
 
 # Expose the port your app runs on (adjust if necessary)
-EXPOSE 3000
+EXPOSE 8080
+
+ENV PORT 8080
 
 # Define the command to run your app
 CMD ["npm", "start"]
