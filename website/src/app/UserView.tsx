@@ -3,7 +3,7 @@ import { User } from "./types";
 
 export function UserView({ user }: { user: User }) {
   return (
-    <div className="flex items-center space-x-4 p-4 border rounded-md w-64">
+    <div className="flex items-center space-x-4 p-4 border rounded-md">
       <Avatar>
         {user.image && <AvatarImage src={user.image} />}
         {user.name && (
