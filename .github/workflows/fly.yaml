@@ -2,7 +2,8 @@ name: Fly Deploy
 on:
   push:
     branches:
-      - main    
+      - main
+
 jobs:
   deploy:
     name: Deploy app
@@ -11,15 +12,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # This ensures the repository is checked out into the `website` directory
           path: website
 
       - name: Set up Flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
-        working-directory: ./website # Specify the working directory here
 
       - name: Deploy to Fly.io
-        run: flyctl deploy --remote-only
-        working-directory: ./website # Set the working directory for the deploy command
+        run: |
+          cd website
+          flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
