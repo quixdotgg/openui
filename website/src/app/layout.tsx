@@ -14,6 +14,12 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+const righteous = localFont({
+  src: "./fonts/Righteous-Regular.ttf",
+  variable: "--font-righteous",
+  weight: "400",
+});
+
 export const metadata: Metadata = {
   title: "OpenUi",
   description: "Open source shadcn component registry",
@@ -27,11 +33,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${righteous.variable} antialiased`}
       >
-        <ThemeProvider attribute="class">
-          {children}
-        </ThemeProvider>
+        <ThemeProvider attribute="class">{children}</ThemeProvider>
       </body>
     </html>
   );

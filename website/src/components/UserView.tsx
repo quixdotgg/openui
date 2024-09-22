@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { User } from "./types";
+import { User } from "@/app/types";
 import { Card, CardContent } from "@/components/ui/card";
 
 export function UserView({ user }: { user: User }) {
