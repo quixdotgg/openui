@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export function UserView({ user }: { user: User }) {
   return (
-    <Card className="pt-6 mx-4">
+    <Card className="pt-6">
       <CardContent className="flex gap-2 items-center">
         <Avatar>
           {user.image && <AvatarImage src={user.image} />}
