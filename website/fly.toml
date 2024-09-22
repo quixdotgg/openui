@@ -4,7 +4,7 @@
 #
 
 app = 'openui-quix'
-primary_region = 'sin'
+primary_region = 'iad'
 
 [build]
 
@@ -17,6 +17,6 @@ primary_region = 'sin'
   processes = ['app']
 
 [[vm]]
-  memory = '1gb'
+  memory = '256mb'
   cpu_kind = 'shared'
   cpus = 1
