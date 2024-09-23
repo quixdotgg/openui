@@ -43,7 +43,7 @@ export default async function publishComponent(
                 }),
                 files: z.array(
                     z.object({
-                        path: z.string(), // this sould be name of the component in lowercase with - if multiple words have extension .tsx
+                        path: z.string(), // this sould be name of the component in lowercase with if multiple words use - between each word also have extension .tsx
                         type: z.literal("registry:ui"), // hardcode this
                     })
                 ),
