@@ -11,7 +11,8 @@ COPY package*.json ./
 RUN npm install
 
 # Generate Prisma Client
-RUN npx prisma generate
+RUN npx prisma generate --schema prisma/schema.prisma
+
 
 # Copy the rest of your application code
 COPY . .
