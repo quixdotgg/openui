@@ -30,7 +30,7 @@ export default function ComponentExplorer({
             <div key={comp.id}>
               <Card className="mt-4">
                 <CardHeader>
-                  <CardTitle>{comp.name}</CardTitle>
+                  <CardTitle className="font-righteous text-xl">{comp.name}</CardTitle>
                   <CardDescription>
                     created by: {comp.createdBy}
                   </CardDescription>
