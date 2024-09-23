@@ -42,13 +42,23 @@ export default function YourComponent() {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof componentSchema>) {
     try {
-      const component:any = await publishComponent(values);
+      const component: any = await publishComponent(values);
       console.log(component);
       form.reset();
       if (component.id)
         toast({
           title: `Successfully Published Component !`,
           description: component.id,
+          action: (
+            <a
+              target="_blank"
+              href={`https://openui.quix.gg/api/component/${component.id}`}
+            >
+              <Button variant={"link"} size={"sm"}>
+                link
+              </Button>
+            </a>
+          ),
         });
     } catch (e: any) {
       toast({
