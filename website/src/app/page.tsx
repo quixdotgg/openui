@@ -2,7 +2,7 @@
 import { auth, signIn } from "@/auth";
 import Header from "@/components/Header";
 import db from "@/db";
-import ComponentExplorer from "./ComponentExplorer";
+import ComponentExplorer from "./components/ComponentExplorer/ComponentExplorer";
 
 export default async function Home() {
   const session = await auth();
