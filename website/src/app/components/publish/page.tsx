@@ -1,15 +1,16 @@
 import { auth, signIn } from "@/auth";
 import Header from "@/components/Header";
-import PlaygroundPage from "@/components/playground/playground";
+import PublishForm from "./PublishForm";
 
-export default async function Home() {
+export default async function Publish() {
   const session = await auth();
-  if (!session?.user) return await signIn();
+  const userEmail = session?.user?.email || "";
+  if (!userEmail) return await signIn();
 
   return (
     <div className="max-w-screen-xl mx-auto mt-5">
       <Header />
-      <PlaygroundPage />
+      <PublishForm userEmail={userEmail}/>
     </div>
   );
 }

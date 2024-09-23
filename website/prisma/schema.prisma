@@ -20,6 +20,7 @@ model Component {
   registryDependencies String[] // Array of strings
   dependencies         String[] // Array of strings
   devDependencies      String[] // Array of strings
+  createdBy            String
 
   // Nested Tailwind config as a Json object
   tailwind Json? // Optional field using Json for config
