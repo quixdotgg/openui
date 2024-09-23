@@ -13,19 +13,11 @@ import {
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import Editor, { Monaco } from "@monaco-editor/react";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import publishComponent from "./action";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-import { Bot, BotIcon } from "lucide-react";
+import { BotIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import generateComponent from "./generate";
 
