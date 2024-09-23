@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import Editor, { Monaco } from "@monaco-editor/react";
 import {
   Form,
   FormControl,
@@ -23,8 +24,14 @@ import {
 } from "@/components/ui/form";
 import publishComponent from "./action";
 import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
+import { Bot, BotIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import generateComponent from "./generate";
 
 export default function PublishForm({ userEmail }: { userEmail: string }) {
+  const [prompt, setPrompt] = useState("");
+  const [isGenerating, setGenerating] = useState(false);
   const defaultComponent = `
 // modify below code for your component
 export default function YourComponent() {
@@ -69,14 +76,18 @@ export default function YourComponent() {
     }
   }
 
+  function handleEditorWillMount(_: any, monaco: Monaco) {
+    monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+      jsx: 2,
+    });
+  }
+
   return (
     <div>
       <Card>
         <CardHeader>
           <CardTitle>New Component</CardTitle>
-          <CardDescription>
-            Fill details below for your component
-          </CardDescription>
+          <CardDescription>Write the code for your component</CardDescription>
         </CardHeader>
         <CardContent className="flex gap-2 items-center">
           <Form {...form}>
@@ -84,20 +95,46 @@ export default function YourComponent() {
               onSubmit={form.handleSubmit(onSubmit)}
               className="w-full space-y-6"
             >
-              <FormField
-                control={form.control}
-                name="component"
-                render={({ field }) => (
-                  <FormItem className="w-full grow">
-                    <FormLabel>Component Code</FormLabel>
-                    <FormControl>
-                      <Textarea className="h-[600px]" {...field} />
-                    </FormControl>
-                    <FormDescription>write your component</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="h-[40dvh] rounded-sm overflow-hidden">
+                <Editor
+                  height="40dvh"
+                  defaultLanguage="typescript"
+                  value={form.watch("component")}
+                  onChange={(value = "") => form.setValue("component", value)}
+                  theme="vs-dark"
+                  onMount={handleEditorWillMount}
+                />
+              </div>
+              <div className="flex items-center">
+                Generate with AI <BotIcon className="ml-2 h-6" />
+              </div>
+              <div className="flex items-start mt-2">
+                <Textarea
+                  className="w-[80%]"
+                  placeholder="A bootstrap like button component"
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                />
+                <Button
+                  size={"icon"}
+                  disabled={isGenerating}
+                  className="ml-2"
+                  onClick={async () => {
+                    setGenerating(true);
+                    // call generate
+                    const code = await generateComponent(prompt);
+                    // set code to generated code
+                    form.setValue("component", code);
+
+                    // setGenerating false
+                    setGenerating(false);
+                  }}
+                >
+                  <BotIcon
+                    className={cn("h-4", isGenerating && "animate-bounce")}
+                  />
+                </Button>
+              </div>
               <Button type="submit" disabled={form.formState.isSubmitting}>
                 {form.formState.isSubmitting ? "Publishing..." : "Publish"}
               </Button>
