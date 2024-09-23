@@ -14,67 +14,89 @@ import { useState } from "react";
 import openUiLink from "../../opneuiLink";
 import useDelayedEffect from "@/hooks/useDelayedEffect";
 import { findComponents } from "./action";
+import { Switch } from "@/components/ui/switch";
 
 export default function ComponentExplorer({
   defaultComponents,
+  userEmail,
 }: {
   defaultComponents: Component[];
+  userEmail: string;
 }) {
-  const [components, setComponents] = useState(defaultComponents);
+  const [components, setComponents] = useState<Component[]>(defaultComponents);
   const [search, setSearch] = useState("");
+  const [showMyComponents, setShowMyComponents] = useState(false);
 
-  const prepareWhere = () => {
-    const where: any = {
-      OR: [],
-    };
-
-    if (search) {
-      where.OR.push({
-        name: {
-          contains: search,
-          mode: "insensitive",
-        },
-      });
-    }
-
-    return where;
+  // Handle search input change
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
   };
 
+  // Toggle switch handler
+  const toggleShowMyComponents = () => {
+    setShowMyComponents((prev) => !prev);
+  };
+
+  // Use delayed effect to fetch components based on search input and toggle state
   useDelayedEffect(
     () => {
-      (async () => {
+      const fetchComponents = async () => {
+        const where: any = showMyComponents
+          ? {
+              createdBy: userEmail,
+            }
+          : {};
+
         if (search) {
-          const updatedComponents = await findComponents({
-            where: prepareWhere(),
-            orderBy: { name: "asc" },
-            take: 50,
-            skip: 0,
-          });
-          setComponents(updatedComponents);
-        } else {
-          setComponents(defaultComponents);
+          where.name = {
+            contains: search,
+            mode: "insensitive",
+          };
         }
-      })();
+
+        const updatedComponents = await findComponents({
+          where,
+          orderBy: { name: "asc" },
+          take: 50,
+        });
+
+        setComponents(updatedComponents);
+      };
+
+      fetchComponents();
     },
-    [search],
+    [search, showMyComponents],
     500
   );
 
   return (
     <div className="mb-10">
-      <h1 className="mb-4">Components Explorer</h1>
+      <div className="flex items-center">
+      <h1 className="mb-4 mr-2">Components Explorer</h1>
+      <label className="flex items-center mb-4">
+        <Switch
+          checked={showMyComponents}
+          onCheckedChange={toggleShowMyComponents}
+          className="mr-2"
+        />
+        <span className="text-sm">Only Mine</span>
+      </label>
+      </div>
+
       {/* Search Input */}
       <Input
         placeholder="Search"
         className="w-full mb-4"
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={handleSearchChange}
       />
 
       {/* Components List */}
       <div>
-        {components.map((comp) => {
-          return (
+        {components.length === 0 ? (
+          <p>No components found.</p>
+        ) : (
+          components.map((comp) => (
             <div key={comp.id}>
               <Card className="mt-4">
                 <CardHeader>
@@ -99,8 +121,8 @@ export default function ComponentExplorer({
                 </CardContent>
               </Card>
             </div>
-          );
-        })}
+          ))
+        )}
       </div>
     </div>
   );
