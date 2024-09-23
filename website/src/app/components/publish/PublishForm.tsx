@@ -20,6 +20,7 @@ import { useState } from "react";
 import { BotIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import generateComponent from "./generate";
+import openUiLink from "@/app/opneuiLink";
 
 export default function PublishForm({ userEmail }: { userEmail: string }) {
   const [prompt, setPrompt] = useState("");
@@ -51,7 +52,7 @@ export default function YourComponent() {
           action: (
             <a
               target="_blank"
-              href={`https://openui.quix.gg/api/component/${component.id}`}
+              href={`${openUiLink()}/api/component/${component.id}`}
             >
               <Button variant={"link"} size={"sm"}>
                 link
