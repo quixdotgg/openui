@@ -6,7 +6,7 @@ import { GenerateContentResponse, VertexAI } from "@google-cloud/vertexai";
 export default async function generateComponent(userPrompt: string) {
   try {
     const vertexAI = new VertexAI({
-      project: "striped-acrobat-433120-c0",
+      project: "skillful-fx-441201-i4",
       location: "us-central1",
     });
 
