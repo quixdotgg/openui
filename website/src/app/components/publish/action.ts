@@ -12,7 +12,7 @@ export default async function publishComponent(
     const validatedComponent = componentSchema.parse(componentPayload);
 
     const vertexAI = new VertexAI({
-      project: "striped-acrobat-433120-c0",
+      project: "skillful-fx-441201-i4",
       location: "us-central1",
     });
 
